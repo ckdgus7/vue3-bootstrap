@@ -1,30 +1,63 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view />
+<base-container title="Vuex" v-if="isAuth">
+  <the-counter></the-counter>
+  <favorite-value></favorite-value>
+  <button @click="addOne">Add 10</button>
+  <change-counter></change-counter>
+</base-container>
+<base-container title="Auth">
+  <user-auth></user-auth>
+</base-container>
 </template>
 
+<script>
+import {
+  computed
+} from 'vue';
+import {
+  useStore
+} from 'vuex';
+import BaseContainer from './components/BaseContainer.vue';
+import TheCounter from './components/TheCounter.vue';
+import ChangeCounter from './components/ChangeCounter.vue';
+import FavoriteValue from './components/FavoriteValue.vue';
+import UserAuth from './components/UserAuth.vue';
+
+export default {
+  components: {
+    BaseContainer,
+    TheCounter,
+    ChangeCounter,
+    FavoriteValue,
+    UserAuth
+  },
+  setup() {
+    const store = useStore();
+    const isAuth = computed(() => store.getters.userIsAuthenticated);
+    const addOne = () => {
+      store.dispatch({
+        type: 'numbers/increase',
+        value: 10
+      });
+    };
+    return {
+      isAuth,
+      addOne
+    };
+  }
+};
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  box-sizing: border-box;
 }
 
-#nav {
-  padding: 30px;
+html {
+  font-family: sans-serif;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+body {
+  margin: 0;
 }
 </style>
