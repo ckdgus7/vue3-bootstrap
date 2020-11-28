@@ -10,6 +10,6 @@ const app = createApp(App)
 app.use(router);
 app.use(store);
 
-app.component('base-badge', BaseBadge);
+app.component('BaseBadge', BaseBadge);
 
 app.mount('#app');

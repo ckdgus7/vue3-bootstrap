@@ -1,44 +1,39 @@
 <template>
-<header>
-  <h1>
-    <router-link to="/">Shop</router-link>
-  </h1>
-  <nav>
-    <ul>
-      <li>
-        <router-link to="/products">Products</router-link>
-      </li>
-      <li>
-        <router-link to="/cart">Cart</router-link>
-        <base-badge mode="elegant">{{ cartQuantity }}</base-badge>
-      </li>
-      <!-- <li v-if="isLoggedIn">
+  <header>
+    <h1>
+      <router-link to="/">Shop</router-link>
+    </h1>
+    <nav>
+      <ul>
+        <li>
+          <router-link to="/products">Products</router-link>
+        </li>
+        <li>
+          <router-link to="/cart">Cart</router-link>
+          <BaseBadge mode="elegant">{{ cartQuantity }}</BaseBadge>
+        </li>
+        <!-- <li v-if="isLoggedIn">
           <router-link to="/admin">Admin</router-link>
         </li> -->
-    </ul>
-  </nav>
-  <div></div>
-  <!-- <div>
+      </ul>
+    </nav>
+    <div></div>
+    <!-- <div>
     <button v-if="!isLoggedIn" @click="login">Login</button>
     <button v-if="isLoggedIn" @click="logout">Logout</button>
   </div> -->
-</header>
+  </header>
 </template>
 
 <script>
-import {
-  computed
-} from 'vue';
-import {
-  useStore
-} from 'vuex';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 export default {
   setup() {
     // const { getters, dispatch } = useStore();
-    const {
-      getters
-    } = useStore();
-    const cartQuantity = computed(() => getters['cart/quantity'])
+
+    const { getters } = useStore();
+    const cartQuantity = computed(() => getters['cart/quantity']);
     // const isLoggedIn = computed(() => getters['isAuthenticated'])
     // const login = dispatch('login')
     // const logout = dispatch('logout')
@@ -48,7 +43,7 @@ export default {
       // isLoggedIn,
       // login,
       // logout
-    }
+    };
   },
 };
 </script>

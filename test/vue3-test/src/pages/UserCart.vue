@@ -1,42 +1,48 @@
 <template>
-<section>
-  <h2>Your Cart</h2>
-  <h3>
-    Total Amount: <base-badge mode="elegant">{{ cartTotal }} 원</base-badge>
-  </h3>
-  <ul>
-    <cart-item v-for="item in cartItems" :key="item.productId" :prod-id="item.productId" :title="item.title" :image="item.image" :price="item.price" :qty="item.qty"></cart-item>
-  </ul>
-</section>
+  <section>
+    <hTagBadge h-tag="h2" key-text="Your Cart" :is-badge="false" />
+    <hTagBadge
+      h-tag="h3"
+      key-text="Total Amount: "
+      :is-badge="false"
+      :value-text="`${cartTotal} 원`"
+    />
+    <ul>
+      <cart-item
+        v-for="item in cartItems"
+        :key="item.productId"
+        :prod-id="item.productId"
+        :title="item.title"
+        :image="item.image"
+        :price="item.price"
+        :qty="item.qty"
+      ></cart-item>
+    </ul>
+  </section>
 </template>
 
 <script>
-import {
-  AddComma
-} from '../utils.js';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
 import CartItem from '../components/cart/CartItem.vue';
-import {
-  computed
-} from 'vue';
-import {
-  useStore
-} from 'vuex';
+import hTagBadge from '../components/cart/hTagBadge.vue';
+
+import { AddComma } from '../utils.js';
 
 export default {
   components: {
     CartItem,
+    hTagBadge,
   },
   setup() {
-    const {
-      getters
-    } = useStore();
-    const cartTotal = computed(() => AddComma(getters['cart/totalSum']))
-    const cartItems = computed(() => getters['cart/products'])
-
+    const { getters } = useStore();
+    const cartTotal = computed(() => AddComma(getters['cart/totalSum']));
+    const cartItems = computed(() => getters['cart/products']);
     return {
       cartTotal,
       cartItems,
-    }
+    };
   },
 };
 </script>

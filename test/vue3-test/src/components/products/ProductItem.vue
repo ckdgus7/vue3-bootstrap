@@ -1,33 +1,28 @@
 <template>
-<li class="product">
-  <div class="product__data">
-    <div class="product__image">
-      <img v-if="image" :src="image" :alt="title" />
+  <li class="product">
+    <div class="product__data">
+      <div class="product__image">
+        <img v-if="image" :src="image" :alt="title" />
+      </div>
+      <div class="product__text">
+        <h3>{{ title }}</h3>
+        <BaseBadge mode="highlight" :no-margin-left="true">
+          <h4>{{ formatPrice }} 원</h4>
+        </BaseBadge>
+        <p>{{ description }}</p>
+        <p>{{ pvdState }}</p>
+      </div>
     </div>
-    <div class="product__text">
-      <h3>{{ title }}</h3>
-      <base-badge mode="highlight" :no-margin-left="true">
-        <h4>{{ formatPrice }} 원</h4>
-      </base-badge>
-      <p>{{ description }}</p>
+    <div class="product__actions">
+      <button @click="addToCart">Add to Cart</button>
     </div>
-  </div>
-  <div class="product__actions">
-    <button @click="addToCart">Add to Cart</button>
-  </div>
-</li>
+  </li>
 </template>
 
 <script>
-import {
-  ref
-} from 'vue';
-import {
-  AddComma
-} from '../../utils.js';
-import {
-  useStore
-} from 'vuex';
+import { inject, ref } from 'vue';
+import { AddComma } from '../../utils.js';
+import { useStore } from 'vuex';
 export default {
   props: {
     id: {
@@ -49,24 +44,29 @@ export default {
     image: {
       type: String,
       default: '',
-    }
+    },
   },
   setup(props) {
-    const {
-      dispatch
-    } = useStore();
-    const formatPrice = ref(props.price)
+    const pvdState = inject('pvdState');
+    const pvdEvent = inject('pvdEvent');
+    const { dispatch } = useStore();
+    const formatPrice = ref(props.price);
+    let i = 0;
     const addToCart = () => {
       dispatch('cart/addToCart', {
         id: props.id,
       });
-    }
+      pvdEvent(i);
+      i++;
+    };
 
     return {
       formatPrice: AddComma(formatPrice.value),
-      addToCart
-    }
-  }
+      addToCart,
+      pvdState,
+      pvdEvent,
+    };
+  },
 };
 </script>
 
